@@ -51,31 +51,42 @@ export default {
       this.newmyjson = this.myjson
 
       // searchFields value string to Array
+
       this.newmyjson.searchFields = this.myjson.searchFields.split(",")
 
 
       // deleting facets
       delete this.newmyjson.facets
 
+      //ignoreTags
+      this.newmyjson.ignoreTags = JSON.parse(this.myjson.ignoreTags)
 
-
-      //remove pricefilters field
-      // (if filter type is 3 ,
-      // then the value of priceFilters will be embedded to the ranges key of that object)
 
       var arr = JSON.parse(this.newmyjson.filters)
-      // console.log(arr)
+
       var index = 0
       for(index in arr){
+
+        //collectionHandlesToIgnore to collectionHandles
+        arr[index]['collectionHandles'] = arr[index]['collectionHandlesToIgnore']
+        delete arr[index].collectionHandlesToIgnore
+
+        // (if filter type is 3 ,
+        // then the value of priceFilters will be embedded to the ranges key of that object)
         if(arr[index].filterType == 3){
           arr[index].ranges = JSON.parse(this.myjson.priceFilters)
         }
       }
       this.newmyjson.filters = arr
-
+      //remove pricefilters field
       delete this.newmyjson.priceFilters
 
+      //themeSettings
+      this.newmyjson.themeSettings = JSON.parse(this.myjson.themeSettings)
+
+
       this.v7newmyjson = search1 + JSON.stringify(this.newmyjson) +search2
+
     },
   }
 }
