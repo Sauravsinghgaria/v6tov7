@@ -38,57 +38,66 @@ export default {
       v7newmyjson:'',
       myjson:Object,
       newmyjson:Object,
+      arr:Array,
     }
   },
   methods:{
     convert(){
-      var search1 ='window.sq = window.sq || {}; window.sq.config = Object.assign('
-      var search2 =', window.sq.config);'
-      var n = this.v6myjson.replace(/^\s+|\s+$/g, "");
-      var a = n.replace(search1,"").replace(search2,"")
+        var search1 ='window.sq = window.sq || {}; window.sq.config = Object.assign('
+        var search2 =', window.sq.config);'
+        var n = this.v6myjson.replace(/\s+/g, ' ')
+        var a = n.replace(search1,'').replace(search2,'')
 
-      this.myjson = JSON.parse(a)
-      this.newmyjson = this.myjson
+        this.myjson = JSON.parse(a)
 
-      // searchFields value string to Array
+        this.newmyjson =this.myjson
 
-      this.newmyjson.searchFields = this.myjson.searchFields.split(",")
-
-
-      // deleting facets
-      delete this.newmyjson.facets
-
-      //ignoreTags
-      this.newmyjson.ignoreTags = JSON.parse(this.myjson.ignoreTags)
-
-
-      var arr = JSON.parse(this.newmyjson.filters)
-
-      var index = 0
-      for(index in arr){
-
-        //collectionHandlesToIgnore to collectionHandles
-        arr[index]['collectionHandles'] = arr[index]['collectionHandlesToIgnore']
-        delete arr[index].collectionHandlesToIgnore
-
-        // (if filter type is 3 ,
-        // then the value of priceFilters will be embedded to the ranges key of that object)
-        if(arr[index].filterType == 3){
-          arr[index].ranges = JSON.parse(this.myjson.priceFilters)
+        // searchFields value string to Array
+        if(this.newmyjson.searchFields) {
+          this.newmyjson.searchFields = this.myjson.searchFields.split(",")
         }
+
+        // deleting facets
+        if(this.newmyjson.facets) {
+          delete this.newmyjson.facets
+        }
+        //ignoreTags
+        if(this.newmyjson.ignoreTags) {
+          this.newmyjson.ignoreTags = JSON.parse(this.myjson.ignoreTags)
+
+        }
+
+      //themeSettings
+      if(this.newmyjson.themeSettings) {
+        this.newmyjson.themeSettings = JSON.parse(this.myjson.themeSettings)
       }
-      this.newmyjson.filters = arr
+
+
+
+      this.newmyjson.filters = this.myjson.filters.replaceAll(`"`,`'`)
+      console.log(JSON.parse(this.newmyjson.filters))
+      // for( let index in arr){
+      //
+      //     //collectionHandlesToIgnore to collectionHandles
+      //   arr[index]['collectionHandles'] = arr[index]['collectionHandlesToIgnore']
+      //   delete arr[index].collectionHandlesToIgnore
+      //
+      //     // (if filter type is 3 ,
+      //     // then the value of priceFilters will be embedded to the ranges key of that object)
+      //   if(arr[index].filterType == 3){
+      //     arr[index].ranges = JSON.parse(this.myjson.priceFilters)
+      //   }
+      // }
+      // this.newmyjson.filters = arr
+
+
       //remove pricefilters field
       delete this.newmyjson.priceFilters
 
-      //themeSettings
-      this.newmyjson.themeSettings = JSON.parse(this.myjson.themeSettings)
-
-
       this.v7newmyjson = search1 + JSON.stringify(this.newmyjson) +search2
 
+      }
     },
-  }
 }
 </script>
 
