@@ -70,25 +70,24 @@ export default {
       //themeSettings
       if(this.newmyjson.themeSettings) {
         this.newmyjson.themeSettings = JSON.parse(this.myjson.themeSettings)
+
       }
 
+      var arr = JSON.parse(this.myjson.filters.replace(/[\r\n\t]/g, " ").replace(/\\/g, "\\\\"))
 
+      for( let index in arr){
 
-      this.newmyjson.filters = this.myjson.filters.replaceAll(`"`,`'`)
-      console.log(JSON.parse(this.newmyjson.filters))
-      // for( let index in arr){
-      //
-      //     //collectionHandlesToIgnore to collectionHandles
-      //   arr[index]['collectionHandles'] = arr[index]['collectionHandlesToIgnore']
-      //   delete arr[index].collectionHandlesToIgnore
-      //
-      //     // (if filter type is 3 ,
-      //     // then the value of priceFilters will be embedded to the ranges key of that object)
-      //   if(arr[index].filterType == 3){
-      //     arr[index].ranges = JSON.parse(this.myjson.priceFilters)
-      //   }
-      // }
-      // this.newmyjson.filters = arr
+          //collectionHandlesToIgnore to collectionHandles
+        arr[index]['collectionHandles'] = arr[index]['collectionHandlesToIgnore']
+        delete arr[index].collectionHandlesToIgnore
+
+          // (if filter type is 3 ,
+          // then the value of priceFilters will be embedded to the ranges key of that object)
+        if(arr[index].filterType == 3){
+          arr[index].ranges = JSON.parse(this.myjson.priceFilters)
+        }
+      }
+      this.newmyjson.filters = arr
 
 
       //remove pricefilters field
