@@ -8,13 +8,13 @@
         <div class="col">
           <h5 class="card-header">V6 title</h5>
           <div class="card-body text-secondary">
-            <textarea rows="40" cols="45" class="txt" placeholder="Enter the value" v-model="v6myjson">  </textarea>
+            <textarea rows="14" cols="45" class="txt" placeholder="Enter the value" v-model="v6myjson">  </textarea>
           </div>
         </div>
         <div class="col">
           <h5 class="card-header">V7 title</h5>
           <div class="card-body text-secondary">
-            <textarea rows="40" cols="45" placeholder="Enter the value" v-model="v7newmyjson">  </textarea>
+            <textarea rows="14" cols="45" placeholder="Enter the value" v-model="v7newmyjson">  </textarea>
           </div>
         </div>
       </div>
